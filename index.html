@@ -398,6 +398,14 @@ try {
             detailsPlaceholder: "Anything else you'd want to know about an instructor?",
         },
         {
+            id: "teacherTraining",
+            type: "single",
+            title: "Would you be interested in your dancer taking part in an instructor training session?",
+            subtitle: "When we bring on a new coach, we like to give them hands-on practice with a real student before their first official class, under close supervision. These aren't full lessons, but they come free or heavily discounted \u2014 we'd only reach out if a spot ever opens up.",
+            options: ["Yes, I'd love that", "Maybe \u2014 tell me more", "No thanks"],
+            skipIf: isForSelf,
+        },
+        {
             id: "progressCommunication",
             type: "scale",
             title: "How important is it to hear directly from instructors or owners about your dancer's progress and goals?",
@@ -745,7 +753,7 @@ try {
     function ContactScreen({ contact, setContact }) {
         return (React.createElement("div", { className: "flex-1 flex flex-col" },
             React.createElement("h2", { className: "headline text-2xl leading-snug mb-3", style: { color: "#FFFFFF" } }, "Where should we send your 20% off code?"),
-            React.createElement("p", { className: "text-sm mb-5", style: { color: "#C7C7C7" } }, "We'll also keep you posted as we get closer to opening."),
+            React.createElement("p", { className: "text-sm mb-5", style: { color: "#C7C7C7" } }, "Good for 20% off your first group class. We'll also keep you posted as we get closer to opening."),
             React.createElement("div", { className: "flex flex-col gap-3" },
                 React.createElement("div", null,
                     React.createElement("label", { className: "mono text-xs block mb-1.5", style: { color: "#C7C7C7" } }, "EMAIL"),
@@ -760,7 +768,7 @@ try {
             React.createElement("div", { className: "rounded-full w-16 h-16 flex items-center justify-center mb-5", style: { background: "rgba(196,142,49,0.18)" } },
                 React.createElement(Check, { size: 30, color: "#C48E31" })),
             React.createElement("h1", { className: "display text-4xl mb-3", style: { color: "#FFFFFF" } }, "AND THAT'S A WRAP"),
-            React.createElement("p", { className: "text-[15px] leading-relaxed mb-2", style: { color: "#C7C7C7" } }, "Thank you for helping us build Performers Edge. If you opted in, your 20% off code is on its way to your inbox."),
+            React.createElement("p", { className: "text-[15px] leading-relaxed mb-2", style: { color: "#C7C7C7" } }, "Thank you for helping us build Performers Edge. If you opted in, your 20% off group class code is on its way to your inbox."),
             React.createElement("p", { className: "text-sm italic mb-4", style: { color: "#C7C7C7" } }, "Know someone else who'd want a say? Send this their way."),
             React.createElement(ThanksShareButton, null)));
     }
