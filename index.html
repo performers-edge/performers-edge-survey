@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>Performers Edge — Help Shape What We Build</title>
+<meta name="description" content="Performers Edge is coming to Maple Grove, MN. Share your feedback and get 20% off your first group class." />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Sora:wght@600;700;800&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" />
+
+<style>
+  /* ---- Minimal reset (replaces Tailwind Preflight) ---- */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body, #root { min-height: 100%; margin: 0; padding: 0; }
+  h1, h2, h3, p { margin: 0; }
+  button { font: inherit; color: inherit; background: none; border: none; padding: 0; margin: 0; cursor: pointer; }
+  input, textarea { font: inherit; color: inherit; }
+  a { color: inherit; }
+
+  /* Custom class (not a Tailwind name) so nothing can override this height fix.
+     100dvh tracks the real visible mobile screen, unlike 100vh. */
+  .pe-fullheight { min-height: 100vh; min-height: 100dvh; }
+  body { font-family: 'Work Sans', sans-serif; }
+  .display { font-family: 'Anton', sans-serif; letter-spacing: 0.01em; }
+  .headline { font-family: 'Sora', sans-serif; font-weight: 700; letter-spacing: -0.01em; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .floor-texture {
+    background-image: repeating-linear-gradient(115deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 42px);
+  }
+  @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes moreBelowBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+  .more-below-bounce { animation: moreBelowBounce 1.4s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .more-below-bounce { animation: none; } }
+  .anim-in { animation: fadeSlideIn 0.38s ease both; }
+  @media (prefers-reduced-motion: reduce) { .anim-in { animation: none; } }
+  .opt-btn { transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease; }
+  .opt-btn:active { transform: scale(0.98); }
+
+  /* Guaranteed text sizing — static CSS, not runtime-generated, so text stays
+     readable no matter what. */
+  /* Prevent iOS Safari from auto-boosting/shrinking text size based on its
+     own column-width heuristics — guarantees the font sizes below render
+     exactly as specified, matching preview every time. */
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+  html { font-size: 19px; }
+  .text-xs { font-size: 0.88rem; line-height: 1.25rem; }
+  .text-sm { font-size: 1.02rem; line-height: 1.5rem; }
+  .text-\[15px\] { font-size: 1.1rem; line-height: 1.65rem; }
+  .text-base { font-size: 1.15rem; line-height: 1.75rem; }
+  .text-lg { font-size: 1.3rem; line-height: 1.85rem; }
+  .text-xl { font-size: 1.5rem; line-height: 2rem; }
+  .text-2xl { font-size: 1.85rem; line-height: 2.25rem; }
+  .text-4xl { font-size: 2.65rem; line-height: 2.75rem; }
+  .text-6xl { font-size: 3.9rem; line-height: 1; }
+
+  /* ---- Static replacements for every layout/utility class used below ----
+     Baked in at build time instead of generated live by a CDN script, so
+     rendering can never depend on a network request finishing in time. */
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  .block { display: block; }
+  .flex { display: flex; }
+  .inline-flex { display: inline-flex; }
+  .flex-1 { flex: 1 1 0%; }
+  .flex-col { flex-direction: column; }
+  .items-center { align-items: center; }
+  .items-start { align-items: flex-start; }
+  .justify-between { justify-content: space-between; }
+  .justify-center { justify-content: center; }
+  .justify-end { justify-content: flex-end; }
+  .self-center { align-self: center; }
+  .self-start { align-self: flex-start; }
+  .shrink-0 { flex-shrink: 0; }
+  .text-center { text-align: center; }
+  .text-left { text-align: left; }
+  .italic { font-style: italic; }
+  .underline { text-decoration: underline; }
+  .font-medium { font-weight: 500; }
+  .font-semibold { font-weight: 600; }
+  .leading-\[1\.15\] { line-height: 1.15; }
+  .leading-relaxed { line-height: 1.625; }
+  .leading-snug { line-height: 1.375; }
+  .outline-none { outline: none; }
+  .overflow-y-auto { overflow-y: auto; }
+  .bg-transparent { background-color: transparent; }
+  .aspect-square { aspect-ratio: 1 / 1; }
+  .rounded-full { border-radius: 9999px; }
+  .rounded-2xl { border-radius: 1rem; }
+  .rounded-md { border-radius: 0.375rem; }
+  .fixed { position: fixed; }
+  .left-0 { left: 0; }
+  .right-0 { right: 0; }
+  .bottom-0 { bottom: 0; }
+  .w-full { width: 100%; }
+  .w-5 { width: 1.25rem; }
+  .w-6 { width: 1.5rem; }
+  .w-16 { width: 4rem; }
+  .h-5 { height: 1.25rem; }
+  .h-6 { height: 1.5rem; }
+  .h-16 { height: 4rem; }
+  .h-1\.5 { height: 0.375rem; }
+  .gap-1\.5 { gap: 0.375rem; }
+  .gap-2 { gap: 0.5rem; }
+  .gap-2\.5 { gap: 0.625rem; }
+  .gap-3 { gap: 0.75rem; }
+  .p-2 { padding: 0.5rem; }
+  .p-3\.5 { padding: 0.875rem; }
+  .p-5 { padding: 1.25rem; }
+  .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+  .px-4 { padding-left: 1rem; padding-right: 1rem; }
+  .px-5 { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .py-2\.5 { padding-top: 0.625rem; padding-bottom: 0.625rem; }
+  .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+  .py-3\.5 { padding-top: 0.875rem; padding-bottom: 0.875rem; }
+  .py-5 { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+  .pt-4 { padding-top: 1rem; }
+  .pt-6 { padding-top: 1.5rem; }
+  .pt-8 { padding-top: 2rem; }
+  .pb-3 { padding-bottom: 0.75rem; }
+  .pb-5 { padding-bottom: 1.25rem; }
+  .pb-40 { padding-bottom: 10rem; }
+  .mt-0\.5 { margin-top: 0.125rem; }
+  .mt-1 { margin-top: 0.25rem; }
+  .mt-2 { margin-top: 0.5rem; }
+  .mt-4 { margin-top: 1rem; }
+  .mr-1 { margin-right: 0.25rem; }
+  .mb-1\.5 { margin-bottom: 0.375rem; }
+  .mb-2 { margin-bottom: 0.5rem; }
+  .mb-3 { margin-bottom: 0.75rem; }
+  .mb-4 { margin-bottom: 1rem; }
+  .mb-5 { margin-bottom: 1.25rem; }
+  .mb-6 { margin-bottom: 1.5rem; }
+</style>
+</head>
+<body>
+
+<div id="root">
+  <div id="fallback-loading" style="padding:24px;font-family:sans-serif;color:#222;background:#fff;">
+    Loading Performers Edge survey…
+  </div>
+</div>
+<div id="error-box" style="display:none;padding:20px;font-family:monospace;font-size:13px;color:#b00020;background:#fff0f0;white-space:pre-wrap;word-break:break-word;"></div>
+
+<script>
+  // Catch anything that goes wrong (script load failures, JS errors, unhandled
+  // promise rejections) and show it directly on the page instead of a blank
+  // screen, so we can actually see what broke.
+  function showError(msg) {
+    var box = document.getElementById("error-box");
+    if (box) {
+      box.style.display = "block";
+      box.textContent = "Something went wrong loading the page:\n\n" + msg;
+    }
+    var loading = document.getElementById("fallback-loading");
+    if (loading) loading.remove();
+  }
+  window.addEventListener("error", function (e) {
+    showError((e.message || "Unknown error") + "\n" + (e.filename ? e.filename + ":" + e.lineno : ""));
+  });
+  window.addEventListener("unhandledrejection", function (e) {
+    showError("Unhandled promise rejection: " + (e.reason && e.reason.message ? e.reason.message : e.reason));
+  });
+</script>
+
+<!-- React + ReactDOM (app code below is pre-compiled to plain JS, no in-browser transform needed) -->
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+
+<!-- App code is pre-compiled from JSX to plain JavaScript ahead of time -->
+<script>
+"use strict";
+try {
+    const { useState, useEffect, useRef, useMemo } = React;
+    // ---- Simple icon replacements (no icon library needed for standalone deploy) ----
+    function Icon({ children, size = 18, color = "currentColor", className = "" }) {
+        return (React.createElement("span", { className: className, style: { fontSize: size, color, lineHeight: 1, display: "inline-flex", alignItems: "center", justifyContent: "center" } }, children));
+    }
+    const ChevronRight = (props) => React.createElement(Icon, { ...props }, "\u2192");
+    const ChevronLeft = (props) => React.createElement(Icon, { ...props }, "\u2190");
+    const ChevronDown = (props) => React.createElement(Icon, { ...props }, "\u2193");
+    const Check = (props) => React.createElement(Icon, { ...props }, "\u2713");
+    const Sparkles = (props) => React.createElement(Icon, { ...props }, "\u2728");
+    const PartyPopper = (props) => React.createElement(Icon, { ...props }, "\uD83C\uDF89");
+    const LinkIcon = (props) => React.createElement(Icon, { ...props }, "\uD83D\uDD17");
+    const Download = (props) => React.createElement(Icon, { ...props }, "\u2B07");
+    const XIcon = (props) => React.createElement(Icon, { ...props }, "\u2715");
+    // ---- Design tokens ----
+    const COLORS = {
+        bg: "#0A0A0A",
+        card: "#1C1C1C",
+        cardBorder: "rgba(255,255,255,0.08)",
+        gold: "#C48E31",
+        // Metallic shine: light/dark gold bands to mimic a highlight sweeping
+        // across brushed metal, used on solid-fill gold surfaces (buttons,
+        // progress bar, selected states) instead of a flat color.
+        goldShine: "linear-gradient(120deg, #8B6A24 0%, #C48E31 22%, #F0D9A0 45%, #A9791F 60%, #E0B56C 80%, #C48E31 100%)",
+        goldDim: "rgba(196,142,49,0.18)",
+        pink: "#E0B56C",
+        pinkDim: "rgba(196,142,49,0.2)",
+        cream: "#FFFFFF",
+        muted: "#C7C7C7",
+    };
+    // True when the respondent is filling this out for themselves, not a child.
+    const isForSelf = (answers) => answers.relationship === "For myself (adult dancer, 18+)";
+    const notInterestedInAdult = (answers) => answers.adultInterest === "No";
+    const notInterestedInOtherSports = (answers) => answers.sportsInterest === "No";
+    const QUESTIONS = [
+        {
+            id: "relationship",
+            type: "single",
+            title: "Are you filling this out for your child, yourself, or both?",
+            options: ["For my child (18 & under)", "For myself (adult dancer, 18+)", "Both", "Other"],
+            required: true,
+        },
+        {
+            id: "ages",
+            type: "multi",
+            title: "What age(s) is your dancer or athlete?",
+            options: ["Under 6", "6–9", "10–13", "14–17", "18+"],
+            skipIf: isForSelf,
+        },
+        {
+            id: "aspirationalDisciplines",
+            type: "multi",
+            title: "What styles or skills interest your dancer?",
+            subtitle: "Choose as many as you'd like — styles, skills, or both.",
+            skipIf: isForSelf,
+            options: [
+                "Ballet", "Jazz", "Contemporary/Lyrical", "Hip Hop", "Tap", "Acro/Gymnastics", "Cheer",
+                "High school dance team", "College dance team", "Professional level", "Another sport",
+                "Turns", "Leaps/jumps", "Flexibility", "Strength/conditioning", "Endurance",
+                "Technique/fundamentals", "Movement quality", "Confidence", "Stage presence",
+                "Picking up choreo quickly", "Other",
+            ],
+            allowDetails: true,
+            detailsPlaceholder: "Tell us more, if you'd like…",
+            optional: true,
+        },
+        {
+            id: "currentSupplemental",
+            type: "single",
+            title: "Does your dancer currently go to a supplemental training studio (outside their main studio/team)?",
+            subtitle: "Think private lesson programs, acro-only studios, or other specialty training spaces.",
+            skipIf: isForSelf,
+            options: ["Yes", "No", "Not sure"],
+            followUps: [
+                {
+                    when: (value) => value === "Yes",
+                    question: {
+                        id: "supplementalLove",
+                        type: "textarea",
+                        title: "What do you love about it?",
+                        subtitle: "The stuff you'd hate to lose if you switched somewhere new.",
+                        optional: true,
+                    },
+                },
+                {
+                    when: (value) => value === "Yes",
+                    question: {
+                        id: "supplementalImprove",
+                        type: "textarea",
+                        title: "And what would you change about it if you could?",
+                        subtitle: "No wrong answers — this genuinely shapes what we build.",
+                        optional: true,
+                    },
+                },
+            ],
+        },
+        {
+            id: "barriers",
+            type: "multi",
+            title: "What factors might keep your family from joining a supplemental training studio?",
+            options: [
+                "Cost", "Distance/location", "My studio doesn't allow outside training", "Scheduling conflicts",
+                "Didn't know this existed", "Not sure it's worth it", "Nothing — I'd sign up today", "Other",
+            ],
+            allowDetails: true,
+            detailsPlaceholder: "Anything else that's held you back?",
+        },
+        {
+            id: "facilityDraws",
+            type: "multi",
+            title: "What draws your family to a training facility?",
+            subtitle: "Pick anything that matters to your decision.",
+            options: [
+                "Free, easy parking", "Short drive/close to home", "Instructor experience & credentials",
+                "Affordable pricing", "Class times that fit our schedule", "Modern, well-equipped facility",
+                "Small class sizes", "Cleanliness & safety", "Easy online registration/booking", "Other",
+            ],
+            allowDetails: true,
+            detailsPlaceholder: "Anything else that draws you in?",
+        },
+        {
+            id: "services",
+            type: "multi",
+            title: "Which of these offerings would you be most interested in?",
+            options: [
+                "Private lessons", "Semi-private lessons", "Group technique classes", "Drop-in classes",
+                "Acro/tumbling", "Personal training/conditioning", "Flexibility/mobility", "Adult classes",
+                "Skills clinics", "Online classes", "Online private lessons", "Studio rental", "Workshops",
+                "Dance team tryout prep", "College dance team prep & skill refinement", "Pro-level dance & cheer training",
+            ],
+            followUps: [
+                {
+                    when: (value) => (value || []).length > 1,
+                    buildQuestion: (value) => ({
+                        id: "servicesRank",
+                        type: "rank",
+                        title: "You picked a few — which matter most to you?",
+                        subtitle: "Tap them in order, most important first. You don't have to rank all of them.",
+                        options: value,
+                    }),
+                },
+            ],
+        },
+        {
+            id: "sportsInterest",
+            type: "single",
+            title: "Would your child be interested in training for sports other than dance?",
+            options: ["Yes", "Yes, for another one of my kids", "No", "Maybe, depending on what's offered"],
+        },
+        {
+            id: "sportsWhich",
+            type: "multi",
+            title: "Which sport(s) or activity(ies) would you want training for?",
+            options: [
+                "Baseball", "Softball", "Soccer", "Basketball", "Football", "Volleyball", "Hockey", "Lacrosse",
+                "Cheerleading", "Gymnastics", "Figure Skating", "Tennis", "Pickleball", "Track & Field/Running",
+                "Swimming", "General conditioning/speed & agility", "Injury prevention/rehab", "Other",
+            ],
+            optional: true,
+            skipIf: notInterestedInOtherSports,
+        },
+        {
+            id: "days",
+            type: "multi",
+            title: "Which days work best for your family?",
+            options: ["Weekdays", "Weekends"],
+        },
+        {
+            id: "times",
+            type: "multi",
+            title: "What time of day works best?",
+            options: ["Morning (before 11am)", "Midday (11am–3pm)", "After school (3–6pm)", "Evening (6–9pm)", "Weekend AM", "Weekend PM"],
+        },
+        {
+            id: "bookingStyle",
+            type: "single",
+            title: "How would you rather book private or semi-private lessons?",
+            subtitle: "Drop in whenever it works, or hold the same spot every week?",
+            options: ["Drop in as needed", "Same time slot every week (recurring)", "A mix of both"],
+            followUps: [
+                {
+                    when: (value) => value === "Same time slot every week (recurring)",
+                    question: {
+                        id: "sessionLength",
+                        type: "multi",
+                        title: "How long would you want that recurring spot to run?",
+                        subtitle: "Pick anything that would work for your family.",
+                        options: ["Short session (around 6 weeks)", "School year (fall–spring)", "Summer session", "Ongoing, month-to-month", "Not sure yet"],
+                        optional: true,
+                    },
+                },
+            ],
+        },
+        {
+            id: "amenities",
+            type: "multi",
+            title: "What would you want in a parent/family waiting area?",
+            options: [
+                "Seating", "WiFi", "Viewing window into the studio", "Vending/snacks", "Restroom access",
+                "Water bottle filling station", "No strong preference", "I usually drop off and leave", "My dancer drives themselves",
+            ],
+            optional: true,
+        },
+        {
+            id: "instructorQualities",
+            type: "multi",
+            title: "What qualities or qualifications would you want an instructor to have before booking with them?",
+            subtitle: "Pick anything that matters to you.",
+            options: [
+                "Competition or performance background", "Formal certifications", "Athletic/personal training certifications",
+                "Years of teaching experience", "Warm, encouraging personality", "Firm, direct coaching style",
+                "High-energy, motivating style", "Patient, low-pressure approach", "Clear, proactive communicator",
+                "Strong with kids specifically", "Specializes in my dancer's discipline", "Visible bio/credentials before booking", "Other",
+            ],
+            allowDetails: true,
+            detailsPlaceholder: "Anything else you'd want to know about an instructor?",
+        },
+        {
+            id: "progressCommunication",
+            type: "scale",
+            title: "How important is it to hear directly from instructors or owners about your dancer's progress and goals?",
+            subtitle: "Think regular check-ins, not just a report card at the end.",
+            lowLabel: "Not important",
+            highLabel: "Very important",
+            skipIf: isForSelf,
+        },
+        {
+            id: "adultInterest",
+            type: "single",
+            title: "Would you be interested in adult classes or personal training?",
+            subtitle: "These next few questions are about you specifically, not your dancer/athlete.",
+            options: ["Yes, group classes", "Yes, personal training", "Yes, both", "No", "Maybe"],
+        },
+        {
+            id: "adultFocus",
+            type: "multi",
+            title: "What should adult classes or training focus on?",
+            skipIf: notInterestedInAdult,
+            options: [
+                "General fitness/conditioning", "Barre", "Dance fitness (cardio dance, etc.)", "Pilates",
+                "Adult hip hop", "Adult jazz", "Adult ballet", "Adult contemporary", "Adult tap",
+                "Flexibility/mobility", "Balance and stability", "Strength training", "Injury prevention/recovery",
+                "Stress relief/mental wellness", "Sport-specific training", "Other",
+            ],
+            optional: true,
+        },
+        {
+            id: "collabs",
+            type: "multi",
+            title: "What collabs or pop-ups would you love to see us bring in?",
+            subtitle: "Think guest partners, specialty services, or one-off events — pick anything that sounds fun or useful.",
+            options: [
+                "Dance photography sessions", "Pop-up dancewear or boutique sales", "Sports nutrition specialist",
+                "Physical therapist", "Chiropractor", "Massage therapist/bodywork", "Sports psychology/mental performance coach",
+                "Hair & makeup for photos/competitions", "Costume fitting or alterations pop-up",
+                "Athletic trainer (injury screening/taping)", "DJ or music editing for showcases/competitions",
+                "Local business sponsorships/discount partners", "Team spirit wear or apparel designer", "Other",
+            ],
+            allowDetails: true,
+            detailsPlaceholder: "Any other collabs you'd love to see?",
+            optional: true,
+        },
+        {
+            id: "collabReferral",
+            type: "textarea",
+            title: "Do you know a person or business that would be a great fit for us to collab with?",
+            subtitle: "Drop a name, business, or however we could reach them — we'll take it from here.",
+            optional: true,
+        },
+        {
+            id: "ideas",
+            type: "textarea",
+            title: "Any ideas you wish existed that we haven't thought of?",
+            optional: true,
+        },
+    ];
+    function buildSteps(answers) {
+        const steps = [];
+        const usedGroups = new Set();
+        for (const q of QUESTIONS) {
+            if (q.skipIf && q.skipIf(answers))
+                continue;
+            steps.push(q);
+            if (q.followUps) {
+                for (const fu of q.followUps) {
+                    if (!fu.when(answers[q.id]))
+                        continue;
+                    if (fu.group) {
+                        if (usedGroups.has(fu.group))
+                            continue;
+                        usedGroups.add(fu.group);
+                    }
+                    const resolvedQuestion = fu.buildQuestion ? fu.buildQuestion(answers[q.id]) : fu.question;
+                    if (resolvedQuestion)
+                        steps.push(resolvedQuestion);
+                }
+            }
+        }
+        return steps;
+    }
+    // ---- Formspree submission helper ----
+    // TODO: replace with your real Formspree endpoint (looks like
+    // "https://formspree.io/f/xxxxxxxx") once you've created a form at formspree.io.
+    const FORMSPREE_ENDPOINT = "https://formspree.io/f/mjyvbjgj";
+    async function submitToFormspree(payload) {
+        return fetch(FORMSPREE_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Accept": "application/json" },
+            body: JSON.stringify({
+                email: payload.email || "",
+                phone: payload.phone || "",
+                submittedAt: payload.submittedAt,
+                responseData: JSON.stringify(payload.answers),
+            }),
+        });
+    }
+    function App() {
+        const [adminOpen, setAdminOpen] = useState(false);
+        const [screen, setScreen] = useState("welcome");
+        const [qIndex, setQIndex] = useState(0);
+        const [answers, setAnswers] = useState({});
+        const [contact, setContact] = useState({ optIn: null, email: "", phone: "" });
+        const [animKey, setAnimKey] = useState(0);
+        const [saving, setSaving] = useState(false);
+        const liveRegionRef = useRef(null);
+        const scrollRef = useRef(null);
+        const [hasMoreBelow, setHasMoreBelow] = useState(false);
+        const [consentChecked, setConsentChecked] = useState(false);
+        const steps = useMemo(() => buildSteps(answers), [answers]);
+        const TOTAL_STEPS = steps.length + 2;
+        useEffect(() => {
+            if (screen === "question" && qIndex > steps.length - 1) {
+                setQIndex(Math.max(0, steps.length - 1));
+            }
+        }, [steps.length, screen, qIndex]);
+        const currentQ = steps[qIndex];
+        const stepNumber = screen === "welcome" ? 0 : screen === "contact" ? steps.length + 1 : qIndex + 1;
+        const progress = Math.min(1, stepNumber / TOTAL_STEPS);
+        const ticksFilled = Math.round(progress * 8);
+        // "More below" indicator: shows a bouncing chevron whenever the current
+        // screen's content is taller than the visible area and hasn't been
+        // scrolled to the bottom yet, so people know to keep scrolling for
+        // more options instead of assuming what's on screen is everything.
+        // The whole page scrolls (not an inner box), so this watches the
+        // actual page/window scroll position rather than a container ref.
+        useEffect(() => {
+            // Guard against a stale scroll position from the previous question
+            // (goNext/goBack already reset it, but this covers any edge case,
+            // like an input auto-focusing and nudging the page).
+            window.scrollTo(0, 0);
+            function checkScroll() {
+                const doc = document.documentElement;
+                const remaining = doc.scrollHeight - window.scrollY - window.innerHeight;
+                setHasMoreBelow(remaining > 24);
+            }
+            checkScroll();
+            const raf1 = requestAnimationFrame(checkScroll);
+            const raf2 = requestAnimationFrame(() => requestAnimationFrame(checkScroll));
+            const timer = setTimeout(checkScroll, 300);
+            window.addEventListener("scroll", checkScroll, { passive: true });
+            window.addEventListener("resize", checkScroll);
+            return () => {
+                cancelAnimationFrame(raf1);
+                cancelAnimationFrame(raf2);
+                clearTimeout(timer);
+                window.removeEventListener("scroll", checkScroll);
+                window.removeEventListener("resize", checkScroll);
+            };
+        }, [screen, animKey, currentQ]);
+        function goNext() {
+            setAnimKey((k) => k + 1);
+            window.scrollTo(0, 0);
+            if (screen === "welcome") {
+                setScreen("question");
+                setQIndex(0);
+                return;
+            }
+            if (screen === "question") {
+                if (qIndex < steps.length - 1)
+                    setQIndex((i) => i + 1);
+                else
+                    setScreen("contact");
+                return;
+            }
+        }
+        function goBack() {
+            setAnimKey((k) => k + 1);
+            window.scrollTo(0, 0);
+            if (screen === "question") {
+                if (qIndex === 0)
+                    setScreen("welcome");
+                else
+                    setQIndex((i) => i - 1);
+                return;
+            }
+            if (screen === "contact") {
+                setScreen("question");
+                setQIndex(steps.length - 1);
+            }
+        }
+        function setAnswer(id, value) { setAnswers((prev) => ({ ...prev, [id]: value })); }
+        function toggleMulti(id, option) {
+            setAnswers((prev) => {
+                const cur = prev[id] || [];
+                const next = cur.includes(option) ? cur.filter((o) => o !== option) : [...cur, option];
+                return { ...prev, [id]: next };
+            });
+        }
+        function toggleRank(id, option) {
+            setAnswers((prev) => {
+                const cur = prev[id] || [];
+                const next = cur.includes(option) ? cur.filter((o) => o !== option) : [...cur, option];
+                return { ...prev, [id]: next };
+            });
+        }
+        const canContinue = (() => {
+            if (screen === "welcome")
+                return consentChecked;
+            if (screen !== "question")
+                return true;
+            if (!currentQ.required)
+                return true;
+            return Boolean(answers[currentQ.id]);
+        })();
+        async function handleFinish() {
+            setSaving(true);
+            try {
+                await submitToFormspree({
+                    answers,
+                    email: contact.email,
+                    phone: contact.phone,
+                    submittedAt: new Date().toISOString(),
+                });
+            }
+            catch (e) {
+                console.error("Could not submit response", e);
+            }
+            finally {
+                setSaving(false);
+                setScreen("thanks");
+            }
+        }
+        if (adminOpen)
+            return React.createElement(AdminNote, { onClose: () => setAdminOpen(false) });
+        return (React.createElement("div", { className: "pe-fullheight w-full flex flex-col", style: { background: COLORS.bg, color: COLORS.cream } },
+            screen !== "thanks" && screen !== "welcome" && (React.createElement("div", { className: "w-full px-5 pt-6 pb-3 floor-texture" },
+                React.createElement("div", { className: "flex items-center justify-end mb-2" },
+                    React.createElement("span", { className: "mono text-xs", style: { color: COLORS.gold } }, "PERFORMERS EDGE")),
+                React.createElement("div", { className: "flex gap-1.5" }, Array.from({ length: 8 }).map((_, i) => (React.createElement("div", { key: i, className: "h-1.5 flex-1 rounded-full", style: { background: i < ticksFilled ? COLORS.goldShine : "rgba(255,255,255,0.10)", transition: "background-color 0.3s ease" } })))))),
+            React.createElement("div", { ref: scrollRef, className: "flex-1 flex flex-col px-5 pt-4 pb-40 overflow-y-auto" },
+                React.createElement("div", { key: animKey, className: "anim-in flex-1 flex flex-col" },
+                    screen === "welcome" && (React.createElement(WelcomeScreen, { consentChecked: consentChecked, setConsentChecked: setConsentChecked, onOpenAdmin: () => setAdminOpen(true) })),
+                    screen === "question" && (React.createElement(QuestionScreen, { question: currentQ, value: answers[currentQ.id], detailsValue: answers[`${currentQ.id}__details`], onSingle: (opt) => setAnswer(currentQ.id, opt), onMulti: (opt) => toggleMulti(currentQ.id, opt), onRank: (opt) => toggleRank(currentQ.id, opt), onScale: (n) => setAnswer(currentQ.id, n), onText: (v) => setAnswer(currentQ.id, v), onDetails: (v) => setAnswer(`${currentQ.id}__details`, v), onFieldChange: (fieldId, v) => setAnswer(currentQ.id, { ...(answers[currentQ.id] || {}), [fieldId]: v }) })),
+                    screen === "contact" && React.createElement(ContactScreen, { contact: contact, setContact: setContact }),
+                    screen === "thanks" && React.createElement(ThanksScreen, null))),
+            screen !== "thanks" && (React.createElement("div", { className: "fixed bottom-0 left-0 right-0 px-5 pt-8 pb-5 flex items-center gap-3", style: { background: `linear-gradient(180deg, transparent 0%, ${COLORS.bg} 42%)` } },
+                screen !== "welcome" && (React.createElement("button", { onClick: goBack, "aria-label": "Go back", className: "rounded-full p-3.5 flex items-center justify-center", style: { background: COLORS.card, border: `1px solid ${COLORS.cardBorder}` } },
+                    React.createElement(ChevronLeft, { size: 20, color: COLORS.cream }))),
+                screen === "contact" ? (React.createElement("button", { onClick: handleFinish, disabled: saving, className: "flex-1 rounded-full py-3.5 font-semibold flex items-center justify-center gap-2", style: { background: COLORS.goldShine, color: "#0A0A0A" } },
+                    saving ? "Submitting…" : "Finish & get my code",
+                    React.createElement(Sparkles, { size: 18 }))) : (React.createElement("button", { onClick: goNext, disabled: !canContinue, className: "flex-1 rounded-full py-3.5 font-semibold flex items-center justify-center gap-2", style: { background: canContinue ? COLORS.goldShine : "rgba(196,142,49,0.35)", color: canContinue ? "#0A0A0A" : "rgba(10,10,10,0.6)" } },
+                    screen === "welcome" ? "Let's go" : "Continue",
+                    React.createElement(ChevronRight, { size: 18 }))),
+                hasMoreBelow && (React.createElement("div", { "aria-hidden": "true", className: "more-below-bounce rounded-full flex items-center justify-center shrink-0", style: { width: "34px", height: "34px", background: "rgba(224,181,108,0.45)", border: "1px solid rgba(224,181,108,0.65)" } },
+                    React.createElement(ChevronDown, { size: 18, color: "rgba(224,181,108,1)" }))))),
+            React.createElement("div", { ref: liveRegionRef, "aria-live": "polite", className: "sr-only" })));
+    }
+    function WelcomeScreen({ consentChecked, setConsentChecked, onOpenAdmin }) {
+        const [tapCount, setTapCount] = useState(0);
+        const tapTimer = useRef(null);
+        function handleTitleTap() {
+            setTapCount((c) => {
+                const next = c + 1;
+                if (next >= 5) {
+                    onOpenAdmin();
+                    return 0;
+                }
+                return next;
+            });
+            if (tapTimer.current)
+                clearTimeout(tapTimer.current);
+            tapTimer.current = setTimeout(() => setTapCount(0), 1500);
+        }
+        return (React.createElement("div", { className: "flex-1 flex flex-col", style: { paddingTop: "24px", gap: "36px" } },
+            React.createElement("div", null,
+                React.createElement("div", { className: "mono text-center", style: { color: "#E0B56C", fontSize: "15px", marginBottom: "20px" } }, "\u2726 COMING SOON TO MAPLE GROVE, MN \u2726"),
+                React.createElement("h1", { onClick: handleTitleTap, className: "display leading-[1.15] text-center", style: { color: "#FFFFFF", fontSize: "64px", marginBottom: "28px" } }, "PERFORMERS EDGE"),
+                React.createElement("p", { className: "headline leading-snug text-center", style: { color: "#FFFFFF", fontSize: "28px", marginBottom: "10px" } }, "is on its way"),
+                React.createElement("p", { className: "headline leading-snug text-center", style: { color: "#E0B56C", fontSize: "20px" } }, "and your input will shape what it becomes.")),
+            React.createElement("p", { className: "leading-relaxed", style: { color: "#C7C7C7", fontSize: "18px", lineHeight: "1.7" } }, "We're building a premier supplemental training space in Maple Grove for dancers and athletes \u2014 private lessons, small classes, acro, and conditioning that complement the studio or team you already love. Your feedback genuinely shapes what we build \u2014 we want this to be a place you're excited to walk into, not just another option on a list."),
+            React.createElement("div", { className: "inline-flex self-center items-center justify-center gap-2 rounded-full text-center", style: { background: "rgba(196,142,49,0.16)", border: "1px solid rgba(196,142,49,0.35)", padding: "16px 26px" } },
+                React.createElement(PartyPopper, { size: 22, color: "#C48E31", className: "shrink-0" }),
+                React.createElement("span", { style: { color: "#FFFFFF", fontSize: "18px" } },
+                    "Share feedback, get ",
+                    React.createElement("strong", null, "20% off your first group class"))),
+            React.createElement("button", { onClick: () => setConsentChecked((c) => !c), className: "opt-btn flex items-start gap-3 text-left rounded-2xl", style: { background: consentChecked ? "rgba(196,142,49,0.2)" : "#1C1C1C", border: `1.5px solid ${consentChecked ? "#E0B56C" : "rgba(255,255,255,0.12)"}`, padding: "22px", marginBottom: "8px" } },
+                React.createElement("div", { className: "shrink-0 mt-0.5 w-5 h-5 rounded-md flex items-center justify-center", style: { background: consentChecked ? "#E0B56C" : "transparent", border: `1.5px solid ${consentChecked ? "#E0B56C" : "rgba(255,255,255,0.35)"}` } }, consentChecked && React.createElement(Check, { size: 13, color: "#0A0A0A" })),
+                React.createElement("span", { className: "leading-snug", style: { color: "#FFFFFF", fontSize: "17px" } }, "By continuing, I agree to share my feedback with Performers Edge LLC to help shape their programs and offerings."))));
+    }
+    function QuestionScreen({ question, value, detailsValue, onSingle, onMulti, onRank, onScale, onText, onDetails, onFieldChange }) {
+        return (React.createElement("div", { className: "flex-1 flex flex-col" },
+            React.createElement("h2", { className: "headline leading-snug mb-1.5", style: { color: "#FFFFFF", fontSize: "32px" } }, question.title),
+            question.subtitle && React.createElement("p", { className: "mb-5", style: { color: "#C7C7C7", fontSize: "17px" } }, question.subtitle),
+            !question.subtitle && React.createElement("div", { className: "mb-5" }),
+            question.type === "priceFields" && (React.createElement("div", { className: "flex flex-col gap-3" },
+                question.fields.map((field) => (React.createElement("div", { key: field.id },
+                    React.createElement("label", { className: "mono text-xs block mb-1.5", style: { color: "#C7C7C7" } }, field.label.toUpperCase()),
+                    React.createElement("div", { className: "flex items-center rounded-2xl px-4", style: { background: "#1C1C1C", border: "1.5px solid rgba(255,255,255,0.08)" } },
+                        React.createElement("span", { className: "text-[15px] mr-1", style: { color: "#C7C7C7" } }, "$"),
+                        React.createElement("input", { type: "number", inputMode: "decimal", value: (value && value[field.id]) || "", onChange: (e) => onFieldChange(field.id, e.target.value), placeholder: field.placeholder || "0", className: "w-full bg-transparent py-3.5 text-[15px] outline-none", style: { color: "#FFFFFF" } }))))),
+                React.createElement("span", { className: "mono text-xs mt-1", style: { color: "#C7C7C7" } }, "OPTIONAL \u2014 fill in whatever you have an opinion on."))),
+            question.type === "rank" && (React.createElement("div", { className: "flex flex-col gap-2.5" },
+                question.options.map((opt) => {
+                    const rankIndex = (value || []).indexOf(opt);
+                    const ranked = rankIndex !== -1;
+                    return (React.createElement("button", { key: opt, onClick: () => onRank(opt), className: "opt-btn text-left rounded-2xl px-5 py-5 flex items-center justify-between gap-3", style: { background: ranked ? "rgba(196,142,49,0.2)" : "#1C1C1C", border: `1.5px solid ${ranked ? "#E0B56C" : "rgba(255,255,255,0.08)"}` } },
+                        React.createElement("span", { style: { color: "#FFFFFF", fontSize: "20px" }, className: "font-medium" }, opt),
+                        ranked ? (React.createElement("span", { className: "mono text-xs font-semibold rounded-full w-6 h-6 flex items-center justify-center shrink-0", style: { background: "#E0B56C", color: "#0A0A0A" } }, rankIndex + 1)) : (React.createElement("span", { className: "mono text-xs shrink-0", style: { color: "#8A8A8A" } }, "tap"))));
+                }),
+                (value || []).length > 0 && React.createElement("span", { className: "mono text-xs mt-1", style: { color: "#C7C7C7" } }, "Tap in order, most important first. Tap again to remove."))),
+            question.type === "single" && (React.createElement("div", { className: "flex flex-col gap-2.5" }, question.options.map((opt) => {
+                const selected = value === opt;
+                return (React.createElement("button", { key: opt, onClick: () => onSingle(opt), className: "opt-btn text-left rounded-2xl px-5 py-5 flex items-center justify-between", style: { background: selected ? "rgba(196,142,49,0.2)" : "#1C1C1C", border: `1.5px solid ${selected ? "#E0B56C" : "rgba(255,255,255,0.08)"}` } },
+                    React.createElement("span", { style: { color: "#FFFFFF", fontSize: "20px" }, className: "font-medium" }, opt),
+                    selected && React.createElement(Check, { size: 18, color: "#E0B56C" })));
+            }))),
+            question.type === "text" && (React.createElement(React.Fragment, null,
+                React.createElement("input", { type: "text", value: value || "", onChange: (e) => onText(e.target.value), placeholder: question.placeholder || "Type your answer…", className: "w-full rounded-2xl px-4 py-3.5 text-[15px] outline-none", style: { background: "#1C1C1C", border: "1.5px solid rgba(255,255,255,0.08)", color: "#FFFFFF" } }),
+                question.optional && React.createElement("span", { className: "mono text-xs mt-2", style: { color: "#C7C7C7" } }, "OPTIONAL"))),
+            question.type === "multi" && (React.createElement("div", null,
+                React.createElement("div", { className: "flex flex-col gap-2.5" }, question.options.map((opt) => {
+                    const selected = (value || []).includes(opt);
+                    return (React.createElement("button", { key: opt, onClick: () => onMulti(opt), className: "opt-btn text-left rounded-2xl px-5 py-5 flex items-center justify-between gap-3", style: { background: selected ? "rgba(196,142,49,0.2)" : "#1C1C1C", border: `1.5px solid ${selected ? "#C48E31" : "rgba(255,255,255,0.08)"}` } },
+                        React.createElement("span", { className: "font-medium", style: { color: selected ? "#C48E31" : "#FFFFFF", fontSize: "20px" } }, opt),
+                        React.createElement("div", { className: "shrink-0 w-6 h-6 rounded-md flex items-center justify-center", style: { background: selected ? "#C48E31" : "transparent", border: `1.5px solid ${selected ? "#C48E31" : "rgba(255,255,255,0.3)"}` } }, selected && React.createElement(Check, { size: 14, color: "#0A0A0A" }))));
+                })),
+                question.allowDetails && (React.createElement("div", { className: "mt-4" },
+                    React.createElement("textarea", { value: detailsValue || "", onChange: (e) => onDetails(e.target.value), rows: 3, placeholder: question.detailsPlaceholder || "Add more detail if you'd like…", className: "w-full rounded-2xl px-4 py-3 text-[15px] outline-none", style: { background: "#1C1C1C", border: "1.5px solid rgba(255,255,255,0.08)", color: "#FFFFFF" } }),
+                    React.createElement("span", { className: "mono text-xs mt-2 block", style: { color: "#C7C7C7" } }, "OPTIONAL"))))),
+            question.type === "scale" && (React.createElement("div", null,
+                React.createElement("div", { className: "flex justify-between gap-2 mb-3" }, [1, 2, 3, 4, 5].map((n) => {
+                    const selected = value === n;
+                    return (React.createElement("button", { key: n, onClick: () => onScale(n), className: "opt-btn rounded-2xl flex-1 aspect-square flex items-center justify-center display text-xl", style: { background: selected ? COLORS.goldShine : "#1C1C1C", border: `1.5px solid ${selected ? "#C48E31" : "rgba(255,255,255,0.08)"}`, color: selected ? "#0A0A0A" : "#FFFFFF" } }, n));
+                })),
+                React.createElement("div", { className: "flex justify-between text-xs mono", style: { color: "#C7C7C7" } },
+                    React.createElement("span", null, question.lowLabel),
+                    React.createElement("span", null, question.highLabel)))),
+            question.type === "textarea" && (React.createElement(React.Fragment, null,
+                React.createElement("textarea", { value: value || "", onChange: (e) => onText(e.target.value), rows: 5, placeholder: "Type as much or as little as you'd like\u2026", className: "w-full rounded-2xl px-4 py-3 text-[15px] outline-none", style: { background: "#1C1C1C", border: "1.5px solid rgba(255,255,255,0.08)", color: "#FFFFFF" } }),
+                question.optional && React.createElement("span", { className: "mono text-xs mt-2", style: { color: "#C7C7C7" } }, "OPTIONAL")))));
+    }
+    function formatPhone(raw) {
+        const digits = raw.replace(/\D/g, "").slice(0, 10);
+        const part1 = digits.slice(0, 3);
+        const part2 = digits.slice(3, 6);
+        const part3 = digits.slice(6, 10);
+        if (digits.length > 6)
+            return `${part1}-${part2}-${part3}`;
+        if (digits.length > 3)
+            return `${part1}-${part2}`;
+        return part1;
+    }
+    function ContactScreen({ contact, setContact }) {
+        return (React.createElement("div", { className: "flex-1 flex flex-col" },
+            React.createElement("h2", { className: "headline text-2xl leading-snug mb-3", style: { color: "#FFFFFF" } }, "Where should we send your 20% off code?"),
+            React.createElement("p", { className: "text-sm mb-5", style: { color: "#C7C7C7" } }, "We'll also keep you posted as we get closer to opening."),
+            React.createElement("div", { className: "flex flex-col gap-3" },
+                React.createElement("div", null,
+                    React.createElement("label", { className: "mono text-xs block mb-1.5", style: { color: "#C7C7C7" } }, "EMAIL"),
+                    React.createElement("input", { type: "email", value: contact.email, onChange: (e) => setContact((c) => ({ ...c, email: e.target.value, optIn: "Yes" })), placeholder: "you@email.com", className: "w-full rounded-2xl px-4 py-3.5 text-[15px] outline-none", style: { background: "#1C1C1C", border: "1.5px solid rgba(255,255,255,0.08)", color: "#FFFFFF" } })),
+                React.createElement("div", null,
+                    React.createElement("label", { className: "mono text-xs block mb-1.5", style: { color: "#C7C7C7" } }, "PHONE (optional)"),
+                    React.createElement("input", { type: "tel", value: contact.phone, onChange: (e) => setContact((c) => ({ ...c, phone: formatPhone(e.target.value) })), placeholder: "555-555-5555", maxLength: 12, className: "w-full rounded-2xl px-4 py-3.5 text-[15px] outline-none", style: { background: "#1C1C1C", border: "1.5px solid rgba(255,255,255,0.08)", color: "#FFFFFF" } }))),
+            React.createElement("button", { onClick: () => setContact((c) => ({ ...c, optIn: "No", email: "", phone: "" })), className: "text-sm mt-4 underline self-start", style: { color: "#C7C7C7" } }, "No thanks, skip this")));
+    }
+    function ThanksScreen() {
+        return (React.createElement("div", { className: "flex-1 flex flex-col items-center justify-center text-center px-2" },
+            React.createElement("div", { className: "rounded-full w-16 h-16 flex items-center justify-center mb-5", style: { background: "rgba(196,142,49,0.18)" } },
+                React.createElement(Check, { size: 30, color: "#C48E31" })),
+            React.createElement("h1", { className: "display text-4xl mb-3", style: { color: "#FFFFFF" } }, "AND THAT'S A WRAP"),
+            React.createElement("p", { className: "text-[15px] leading-relaxed mb-2", style: { color: "#C7C7C7" } }, "Thank you for helping us build Performers Edge. If you opted in, your 20% off code is on its way to your inbox."),
+            React.createElement("p", { className: "text-sm italic mb-4", style: { color: "#C7C7C7" } }, "Know someone else who'd want a say? Send this their way."),
+            React.createElement(ThanksShareButton, null)));
+    }
+    function ThanksShareButton() {
+        const [copied, setCopied] = useState(false);
+        const shareMessage = "Performers Edge is a new dance & athletic training space opening in Maple Grove! They're asking for feedback before they open, and you get 20% off your first group class just for filling it out. Takes about 5 minutes:";
+        async function handleShare() {
+            const url = window.location.href;
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: "Performers Edge Survey", text: shareMessage, url });
+                    return;
+                }
+                catch (e) { /* canceled or unsupported, fall through */ }
+            }
+            try {
+                await navigator.clipboard.writeText(`${shareMessage} ${url}`);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2200);
+            }
+            catch (e) { /* no-op */ }
+        }
+        return (React.createElement("button", { onClick: handleShare, className: "opt-btn rounded-full px-5 py-2.5 flex items-center gap-2", style: { background: "#1C1C1C", border: "1.5px solid rgba(255,255,255,0.12)" } },
+            React.createElement(LinkIcon, { size: 15, color: copied ? "#C48E31" : "#FFFFFF" }),
+            React.createElement("span", { className: "text-sm font-medium", style: { color: copied ? "#C48E31" : "#FFFFFF" } }, copied ? "Message copied!" : "Share with a friend")));
+    }
+    // Response viewing lives in your Formspree dashboard for the
+    // deployed version — there's no client-side database to read from here.
+    function AdminNote({ onClose }) {
+        return (React.createElement("div", { className: "pe-fullheight w-full p-5 flex flex-col", style: { background: COLORS.bg, color: COLORS.cream } },
+            React.createElement("div", { className: "flex items-center justify-between mb-6" },
+                React.createElement("h1", { className: "display text-2xl", style: { color: COLORS.cream } }, "PERFORMERS EDGE"),
+                React.createElement("button", { onClick: onClose, className: "rounded-full p-2", style: { background: "#1C1C1C" } },
+                    React.createElement(XIcon, { size: 16, color: "#FFFFFF" }))),
+            React.createElement("div", { className: "rounded-2xl p-5", style: { background: "#242424", border: "1px solid rgba(255,255,255,0.08)" } },
+                React.createElement("p", { className: "text-[15px] leading-relaxed mb-3", style: { color: "#FFFFFF" } }, "Responses for this survey are collected through Formspree."),
+                React.createElement("p", { className: "text-sm leading-relaxed", style: { color: "#C7C7C7" } },
+                    "Log into your Formspree dashboard \u2192 select this form to view every submission, including email, phone (if given), and the full set of answers as a JSON field you can copy or export as CSV directly from Formspree."))));
+    }
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(React.createElement(App, null));
+}
+catch (err) {
+    var box = document.getElementById("error-box");
+    if (box) {
+        box.style.display = "block";
+        box.textContent = "Something went wrong loading the page:\n\n" + (err && err.stack ? err.stack : String(err));
+    }
+    var loading = document.getElementById("fallback-loading");
+    if (loading)
+        loading.remove();
+}
+</script>
+</body>
+</html>
